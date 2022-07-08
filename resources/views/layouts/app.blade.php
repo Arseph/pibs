@@ -191,11 +191,11 @@
             <div class="clearfix"></div>
         </div>
     </div>
-    <!-- <div class="header" style="background-color:#59ab91;padding:10px;">
+    <div class="header" style="background-color:#59ab91;padding:5px;">
         <div class="container">
-            <img src="{{ asset('public/img/header.png') }}" class="img-responsive" />
+           <!--  <img src="{{ asset('public/img/header.png') }}" class="img-responsive" /> -->
         </div>
-    </div> -->
+    </div>
     <div class="container-fluid" >
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">

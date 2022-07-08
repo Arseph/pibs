@@ -36,9 +36,9 @@ class LoginController extends Controller
                 Session::put('auth',$login);
                 if($login->level=='admin')
                     return redirect('admin');
-                else if($login->level=='doctor')
+                else if($login->level=='doctor' && $login->is_accept== 1)
                     return redirect('doctor');
-                else if($login->level=='patient')
+                else if($login->level=='patient' && $login->is_accept== 1)
                     return redirect('patient');
                 else{
                     Session::forget('auth');
@@ -61,6 +61,16 @@ class LoginController extends Controller
 
     public function register(Request $req)
     {
-        dd($req->all());
+        $data = array(
+            'level' => $req->level,
+            'fname' => $req->fname,
+            'mname' => $req->mname,
+            'lname' => $req->lname,
+            'email' => $req->email, 
+            'username' => $req->username,
+            'password' => Hash::make($req->password),
+            'is_accept' => 0
+        );
+        User::create($data);
     }
 }

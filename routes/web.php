@@ -21,5 +21,6 @@ Route::post('register', 'Auth\LoginController@registerIndex');
 Route::post('register-account', 'Auth\LoginController@register');
 
 Route::get('admin', 'AdminController@index');
+Route::get('patient-profile', 'AdminController@patientProfile');
 Route::get('doctor', 'DoctorController@index');
 Route::get('patient', 'PatientController@index');

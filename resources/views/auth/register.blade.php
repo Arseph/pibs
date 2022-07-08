@@ -31,7 +31,7 @@
             <div class="mb-4">
               <h3 class="mt-3">Register</h3>
             </div>
-            <form action="{{ asset('register-account') }}" method="post">
+            <form id="register_form" method="post">
                 @csrf
               <div class="form-group first">
                 User type
@@ -77,5 +77,23 @@
     <script src="{{ asset('public/login/js/popper.min.js') }}"></script>
     <script src="{{ asset('public/login/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('public/login/js/main.js') }}"></script>
+    <script src="{{ asset('public/assets/js/jquery.form.min.js') }}"></script>
+    <script>
+        $('#register_form').on('submit',function(e){
+        e.preventDefault();
+        $('#register_form').ajaxSubmit({
+            url:  "{{ asset('register-account') }}",
+            type: "POST",
+            success: function(data){
+                setTimeout(function(){
+                    window.location.reload(false);
+                },500);
+            },
+            error: function (data) {
+                
+            },
+        });
+    });
+    </script>
   </body>
 </html>
