@@ -61,9 +61,6 @@
 
     @yield('css')
     <style>
-        body {
-            background: url('{{ asset('public/img/backdrop.png') }}'), -webkit-gradient(radial, center center, 0, center center, 460, from(#ccc), to(#ddd));
-        }
         .loading {
             background: rgba(255, 255, 255, 0.6) url('{{ asset('public/img/spin.gif')}}') no-repeat center;
             position:fixed;
@@ -188,6 +185,11 @@
                     <span class="title-info">Welcome,</span> <span class="title-desc">{{ $t }} {{ $user->fname }} {{ $user->lname }} {{ $dept_desc }}</span>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="pull-right">
+                    <span class="title-info">ONLINE CLINIC SCHEDULING APPOINTMENT SYSTEM</span>
+                </div>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -218,6 +220,30 @@
                 <li><a href="{{ asset('schedule-profile') }}"><i class="far fa-calendar"></i> My Schedule</a></li>
                 <li><a href="{{ asset('medicine-profile') }}"><i class="fas fa-capsules"></i> Medicine</a></li>
                 @endif
+                @if($user->level=='patient')
+                <li><a href="{{ asset('patient') }}"><i class="fa fa-home"></i> Dashboard</a></li>
+                <li><a href="{{ asset('patient-schedule') }}"><i class="far fa-calendar"></i> Schedule</a></li>
+                @endif
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                  <a title="Notification" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-circle"></i> My Profile</a>
+                  <ul class="dropdown-menu notify-drop" onclick="event.stopPropagation()">
+                    <div class="drop-content">
+                        <div class="row" style="margin: 10px;">
+                            <hr>
+                            <i class="fas fa-cogs"></i> &nbsp;Settings
+                            <hr>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                            <i class="fas fa-sign-out-alt"></i> &nbsp; <a href="{{asset('logout')}}">Logout</a>
+                            <hr>
+                        </div>
+                        <div class="row" style="margin: 10px;">
+                        </div>
+                    </div>
+                  </ul>
+                </li>
             </ul>
         </div><!--/.nav-collapse -->
     </div>

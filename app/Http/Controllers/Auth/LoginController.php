@@ -36,9 +36,9 @@ class LoginController extends Controller
                 Session::put('auth',$login);
                 if($login->level=='admin')
                     return redirect('admin');
-                else if($login->level=='doctor' && $login->is_accept== 1)
+                else if($login->level=='doctor')
                     return redirect('doctor');
-                else if($login->level=='patient' && $login->is_accept== 1)
+                else if($login->level=='patient')
                     return redirect('patient');
                 else{
                     Session::forget('auth');

@@ -16,7 +16,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="{{ asset('public/login/css/style.css') }}">
 
-    <title>Login #6</title>
+    <title>Login PIBS</title>
   </head>
   <body>
   

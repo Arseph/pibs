@@ -23,23 +23,23 @@
         <div class="box-body">
            <div class="box-header with-border">
 	            <div class="pull-right">
-	                <form action="{{ asset('patient-profile') }}" method="POST" class="form-inline">
+	                <form action="{{ asset('doctor-profile') }}" method="POST" class="form-inline">
 	                    {{ csrf_field() }}
 	                    <div class="form-group-md" style="margin-bottom: 10px;">
-	                        <input type="text" class="form-control" name="keyword" placeholder="Search patient..." value="{{Session::get('keyword')}}">
+	                        <input type="text" class="form-control" name="keyword" placeholder="Search doctor..." value="{{Session::get('keyword')}}">
 	                        <button type="submit" class="btn btn-success btn-sm btn-flat">
 	                            <i class="fa fa-search"></i> Search
 	                        </button>
 	                        <button type="submit" value="view_all" name="view_all" class="btn btn-warning btn-sm btn-flat">
 	                            <i class="fa fa-eye"></i> View All
 	                        </button>
-	                        <a data-toggle="modal" class="btn btn-info btn-sm btn-flat" data-target="#patientModal">
-	                            <i class="fas fa-head-side-mask"></i> Add Patient
+	                        <a data-toggle="modal" class="btn btn-info btn-sm btn-flat" data-target="#doctorModal">
+	                            <i class="fas fa-head-side-mask"></i> Add doctor
 	                        </a>
 	                    </div>
 	                </form>
 	            </div>
-	            <h3>List of Patients</h3>
+	            <h3>List of doctors</h3>
 	        </div>
             <div class="box-body">
             <br>
@@ -48,6 +48,7 @@
 	                    <table class="table table-striped table-hover">
 	                        <tr class="bg-black">
 	                            <th>Name</th>
+                              <th>Specialization</th>
 	                            <th>Gender</th>
 	                            <th>DOB</th>
 	                            <th>Contact</th>
@@ -65,6 +66,7 @@
 	                                    {{ $row->lname }}, {{ $row->fname }} {{ $row->mname }}
 	                                </a>
 	                            </td>
+                              <td>{{ $row->specialization }}</td>
 	                            <td>{{ $row->gender }}</td>
 	                            <td>
 	                                @if($row->dob)
@@ -92,7 +94,7 @@
 	            @else
 	                <div class="alert alert-warning">
 	                    <span class="text-warning">
-	                        <i class="fa fa-warning"></i> No Patients found!
+	                        <i class="fa fa-warning"></i> No doctors found!
 	                    </span>
 	                </div>
 	            @endif
@@ -101,17 +103,17 @@
     </div>
 </div>
 
-<div id="patientModal" class="modal fade" role="dialog">
+<div id="doctorModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Patient</h4>
+        <h4 class="modal-title">Doctor</h4>
       </div>
       <div class="modal-body">
-      	<form id="patient_form" method="POST">
+      	<form id="doctor_form" method="POST">
       		{{ csrf_field() }}
-      		<input type="hidden" name="patient_id">
+      		<input type="hidden" name="doctor_id">
 	        <div class="form-group">
 		     	<label class="required-field">First name:</label>
 		        <input type="text" class="form-control" value="" name="fname" required>
@@ -144,6 +146,10 @@
 	                <option value="Separated">Separated</option>
 	            </select>
 	        </div>
+          <div class="mt-3">
+            <hr>
+            <h4>Contact Information</h4>
+          </div>
 		    <div class="form-group">
 	            <label class="required-field">Contact Number:</label>
 	            <input type="text" class="form-control" value="" name="contact" required>
@@ -152,6 +158,10 @@
 		        <label class="required-field">Address :</label>
 		        <input type="text" name="address" class="form-control others" placeholder="Enter complete address..." />
 		    </div>
+        <div class="form-group">
+          <label class="required-field">Specialization:</label>
+            <input type="text" class="form-control" value="" name="specialization" required>
+        </div>
 		    <div class="form-group">
 	            <label class="required-field">Email:</label>
 	            <input type="email" class="form-control" value="" name="email" required>
@@ -207,10 +217,10 @@
             "singleDatePicker": true
         });
     });
-    $('#patient_form').on('submit',function(e){
+    $('#doctor_form').on('submit',function(e){
 		e.preventDefault();
-		$('#patient_form').ajaxSubmit({
-            url:  "{{ url('patient-store') }}",
+		$('#doctor_form').ajaxSubmit({
+            url:  "{{ url('doctor-store') }}",
             type: "POST",
             success: function(data){
                 setTimeout(function(){
@@ -229,15 +239,16 @@
 		
 	});
 	$( ".btn-edit" ).click(function() {
-        var idpat = $(this).data('id');
-		var url = "{{ url('/patient-information') }}";
+        var iddoc = $(this).data('id');
+        console.log(iddoc)
+    		var url = "{{ url('/doctor-information') }}";
         $.ajax({
-            url: url+"/"+idpat,
+            url: url+"/"+iddoc,
             type: 'GET',
             async: false,
             success : function(data){
                var val = JSON.parse(data);
-               $("input[name=patient_id]").val(val['id']);
+               $("input[name=doctor_id]").val(val['id']);
                $("input[name=fname]").val(val['fname']);
                $("input[name=mname]").val(val['mname']);
                $("input[name=lname]").val(val['lname']);
@@ -248,15 +259,15 @@
                $("input[name=dob]").val(val['dob']);
                $(".civil_status").val(val['civil_status']);
                $(".gender").val(val['gender']);
-               $('#patientModal').modal('show');
+               $('#doctorModal').modal('show');
                $('input[name=password]').attr('required',false);
                $('.password').removeClass('required-field');
                $('.password').html('Change Password:');
             }
         });
     });
-    $('#patientModal').on('hidden.bs.modal', function () {
-        $("input[name=patient_id]").val('');
+    $('#doctorModal').on('hidden.bs.modal', function () {
+        $("input[name=doctor_id]").val('');
                $("input[name=fname]").val('');
                $("input[name=mname]").val('');
                $("input[name=lname]").val('');
@@ -273,7 +284,7 @@
     });
     $( ".btn-delete" ).click(function() {
         var idpat = $(this).data('id');
-		var url = "{{ url('/patient-delete') }}";
+		var url = "{{ url('/doctor-delete') }}";
         $.ajax({
             url: url+"/"+idpat,
             type: 'GET',

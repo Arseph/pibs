@@ -10,4 +10,8 @@ class User extends Authenticatable
 {
     protected $table = 'users';
     protected $guarded = array();
+
+    public function doctor_schedule() {
+        return $this->hasMany(DoctorSched::class, 'doctor_id', 'id');
+    }
 }
